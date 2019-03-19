@@ -1,0 +1,16 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: {{ include "rabbitmq-chart.fullname" . }}
+spec:
+  replicas: {{ .Values.replicaCount }}
+  template:
+    metadata:
+      labels:
+        app: rabbitmq
+        app.kubernetes.io/name: {{ include "rabbitmq-chart.name" . }}
+        app.kubernetes.io/instance: {{ .Release.Name }}          
+    spec:
+      containers:
+        - name: rabbitmq
+          image: "rabbitmq"
