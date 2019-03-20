@@ -40,4 +40,9 @@ And install the hierarchical chart
 helm install -n planet-express .
 ```
 
+Or to upgrade
+```
+helm upgrade planet-express .
+```
+
 
