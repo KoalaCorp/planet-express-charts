@@ -1,25 +1,27 @@
-apiVersion: extensions/v1beta1
-kind: Deployment
+apiVersion: batch/v1beta1
+kind: CronJob
 metadata:
   name: {{ include "crawler-chart.fullname" . }}
 spec:
-  replicas: {{ .Values.replicaCount }}
-  template:
-    metadata:
-      labels:
-        app.kubernetes.io/name: {{ include "crawler-chart.name" . }}
-        app.kubernetes.io/instance: {{ .Release.Name }}          
+  schedule: 00 */10 * * *
+  jobTemplate:
     spec:
-      containers:
-        - name: crawler
-          image: "koalacorp/planet-express-crawler"
-          env:
-          - name: REDIS_HOST
-            value: "redis-service"
-          - name: REDIS_PORT
-            value: "6379"
-          - name: RABBITMQ_HOST
-            value: "rabbitmq-service"
-          - name: RABBITMQ_PORT
-            value: "5672"
-
+      template:
+        metadata:
+          labels:
+            app.kubernetes.io/name: {{ include "crawler-chart.name" . }}
+            app.kubernetes.io/instance: {{ .Release.Name }}
+        spec:
+          restartPolicy: Never
+          containers:
+            - name: crawler
+              image: "koalacorp/planet-express-crawler"
+              env:
+              - name: REDIS_HOST
+                value: "redis-service"
+              - name: REDIS_PORT
+                value: "6379"
+              - name: RABBITMQ_HOST
+                value: "rabbitmq-service"
+              - name: RABBITMQ_PORT
+                value: "5672"

@@ -1,6 +1,6 @@
 dependencies:
  - name: crawler
-   version: 0.1.0
+   version: 0.1.2
    repository: http://localhost:8080
  - name: worker
    version: 0.1.0
