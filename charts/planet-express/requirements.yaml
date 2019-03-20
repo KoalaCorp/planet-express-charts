@@ -1,0 +1,13 @@
+dependencies:
+ - name: crawler
+   version: 0.1.0
+   repository: http://localhost:8080
+ - name: worker
+   version: 0.1.0
+   repository: http://localhost:8080
+ - name: rabbitmq
+   version: 0.1.0
+   repository: http://localhost:8080
+ - name: redis
+   version: 0.1.0
+   repository: http://localhost:8080
