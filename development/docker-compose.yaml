@@ -30,21 +30,21 @@ services:
     networks:
       - planet-express-network
   planet-express:
-    image: planet-express:development
+    image: koalacorp/planet-express:development
     command: sh -c "cd /crawlers/ceuta/ceuta && scrapy crawl elfarodeceuta"
     container_name: planet-express
     hostname: planet-express
     networks:
       - planet-express-network
   planet-express-42:
-    image: planet-express-42:development
+    image: koalacorp/planet-express-42:development
     command: sh -c "cd /worker && python worker.py elfarodeceuta"
     container_name: planet-express-42
     hostname: planet-express-42
     networks:
       - planet-express-network
   planet-express-abe:
-    image: planet-express-abe:development
+    image: koalacorp/planet-express-abe:development
     command: sh -c "cd /api && python api_rest.py"
     container_name: planet-express-abe
     hostname: planet-express-abe
