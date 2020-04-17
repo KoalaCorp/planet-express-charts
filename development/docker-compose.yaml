@@ -30,15 +30,15 @@ services:
     networks:
       - planet-express-network
   planet-express:
-    image: planet-express:development
-    command: sh -c "cd /crawlers/ceuta/ceuta && scrapy crawl elfarodeceuta"
+    image: koalacorp/planet-express:development
+    command: sh -c "cd /crawlers/ceuta/ceuta && (scrapy crawl elfarodeceuta & scrapy crawl elpueblodeceuta)"
     container_name: planet-express
     hostname: planet-express
     networks:
       - planet-express-network
   planet-express-42:
-    image: planet-express-42:development
-    command: sh -c "cd /worker && python worker.py elfarodeceuta"
+    image: koalacorp/planet-express-42:development
+    command: sh -c "cd /worker && (python worker.py elfarodeceuta & python worker.py elpueblodeceuta)"
     container_name: planet-express-42
     hostname: planet-express-42
     networks:
