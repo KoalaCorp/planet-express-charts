@@ -12,7 +12,7 @@ services:
     networks:
       - planet-express-network
     volumes:
-      - ./deploy/rabbitmq-isolated.conf:/etc/rabbitmq/rabbitmq.config
+      - ./configuration/rabbitmq-isolated.conf:/etc/rabbitmq/rabbitmq.config
   redis:
     image: redis
     container_name: redis
@@ -27,8 +27,6 @@ services:
     hostname: mongo
     ports:
       - "27017:27017"
-    networks:
-      - planet-express-network
   planet-express:
     image: koalacorp/planet-express:development
     command: sh -c "cd /crawlers/ceuta/ceuta && (scrapy crawl elfarodeceuta & scrapy crawl elpueblodeceuta)"
@@ -36,6 +34,9 @@ services:
     hostname: planet-express
     networks:
       - planet-express-network
+    depends_on:
+      - redis
+      - rabbitmq
   planet-express-42:
     image: koalacorp/planet-express-42:development
     command: sh -c "cd /worker && (python worker.py elfarodeceuta & python worker.py elpueblodeceuta)"
@@ -43,6 +44,9 @@ services:
     hostname: planet-express-42
     networks:
       - planet-express-network
+    depends_on:
+      - mongo
+      - rabbitmq
   planet-express-abe:
     image: koalacorp/planet-express-abe:development
     command: sh -c "cd /api && python api_rest.py"
@@ -50,8 +54,19 @@ services:
     hostname: planet-express-abe
     ports:
       - "5000:5000"
-    networks:
-      - planet-express-network
+    depends_on:
+      - mongo
+  planet-express-charts:
+    image: koalacorp/planet-express-charts:development
+    container_name: planet-express-charts
+    hostname: planet-express-charts
+    depends_on:
+      - redis
+      - rabbitmq
+      - mongo
+      - planet-express
+      - planet-express-42
+      - planet-express-abe
 networks:
   planet-express-network:
     driver: bridge
