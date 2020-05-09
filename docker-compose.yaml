@@ -48,3 +48,12 @@ services:
       - "5000:5000"
     depends_on:
       - mongo
+  planet-express-hawkeye:
+    image: koalacorp/planet-express-hawkeye:development
+    command: sh -c "yarn dev"
+    container_name: planet-express-hawkeye
+    hostname: planet-express-hawkeye
+    ports:
+      - "80:8080"
+    depends_on:
+      - planet-express-abe
